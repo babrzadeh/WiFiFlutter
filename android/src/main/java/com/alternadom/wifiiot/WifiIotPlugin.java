@@ -484,7 +484,7 @@ public class WifiIotPlugin implements MethodCallHandler, EventChannel.StreamHand
         changeNetworkUsage(poCall, poResult, useData, NetworkCapabilities.TRANSPORT_CELLULAR);
     }
 
-    private void changeNetworkUsage(final MethodCall poCall, final Result poResult, final boolean setUsage, final NetworkCapabilities.Transport int transportType) {
+    private void changeNetworkUsage(final MethodCall poCall, final Result poResult, final boolean setUsage, final int transportType) {
 
         final ConnectivityManager manager = (ConnectivityManager) moContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
