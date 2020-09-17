@@ -360,7 +360,7 @@ class _FlutterWifiIoTState extends State<FlutterWifiIoT> {
               RaisedButton(
                 child: Text("Use 3G/4G"),
                 onPressed: () {
-                  WiFiForIoTPlugin.forceWifiUsage(false);
+                  WiFiForIoTPlugin.forceDataUsage(true);
                 },
               ),
             ],

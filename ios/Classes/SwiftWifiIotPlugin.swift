@@ -19,6 +19,9 @@ public class SwiftWifiIotPlugin: NSObject, FlutterPlugin {
             case "forceWifiUsage":
                 forceWifiUsage(call: call, result: result)
                 break;
+            case "forceDataUsage":
+                forceDataUsage(call: call, result: result)
+                break;                
             case "isEnabled":
                 isEnabled(result: result)
                 break;
@@ -107,6 +110,17 @@ public class SwiftWifiIotPlugin: NSObject, FlutterPlugin {
         let useWifi = (arguments as! [String : Bool])["useWifi"]
         if (useWifi != nil) {
             print("Forcing WiFi usage : %s", ((useWifi ?? false) ? "Use WiFi" : "Use 3G/4G Data"))
+            result(FlutterMethodNotImplemented)
+        } else {
+            result(nil)
+        }
+    }
+
+        private func forceDataUsage(call: FlutterMethodCall, result: FlutterResult) {
+        let arguments = call.arguments
+        let useData = (arguments as! [String : Bool])["useData"]
+        if (useData != nil) {
+            print("Forcing Data usage : %s", ((useData ?? false) ? "Use 3G/4G Data": "Use WiFi"))
             result(FlutterMethodNotImplemented)
         } else {
             result(nil)

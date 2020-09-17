@@ -107,6 +107,9 @@ public class WifiIotPlugin implements MethodCallHandler, EventChannel.StreamHand
             case "forceWifiUsage":
                 forceWifiUsage(poCall, poResult);
                 break;
+            case "forceDataUsage":
+                forceDataUsage(poCall, poResult);
+                break;
             case "isEnabled":
                 isEnabled(poResult);
                 break;
@@ -471,17 +474,29 @@ public class WifiIotPlugin implements MethodCallHandler, EventChannel.StreamHand
     private void forceWifiUsage(final MethodCall poCall, final Result poResult) {
         boolean useWifi = poCall.argument("useWifi");
 
+        changeNetworkUsage(poCall, poResult, useWifi, NetworkCapabilities.TRANSPORT_WIFI);
+    }
+
+
+    private void forceDataUsage(final MethodCall poCall, final Result poResult) {
+        boolean useData = poCall.argument("useData");
+
+        changeNetworkUsage(poCall, poResult, useData, NetworkCapabilities.TRANSPORT_CELLULAR);
+    }
+
+    private void changeNetworkUsage(final MethodCall poCall, final Result poResult, final boolean setUsage, final NetworkCapabilities.Transport int transportType) {
+
         final ConnectivityManager manager = (ConnectivityManager) moContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
         boolean success = true;
         boolean shouldReply = true;
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP && manager != null) {
-            if (useWifi) {
+            if (setUsage) {
                 NetworkRequest.Builder builder;
                 builder = new NetworkRequest.Builder();
                 /// set the transport type do WIFI
-                builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+                builder.addTransportType(transportType);
                 shouldReply = false;
                 manager.requestNetwork(builder.build(), new ConnectivityManager.NetworkCallback() {
                     @Override
@@ -518,7 +533,7 @@ public class WifiIotPlugin implements MethodCallHandler, EventChannel.StreamHand
         if (shouldReply) {
             poResult.success(success);
         }
-    }
+    }    
 
     /// Method to check if wifi is enabled
     private void isEnabled(Result poResult) {

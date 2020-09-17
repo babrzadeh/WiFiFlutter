@@ -176,8 +176,21 @@ class WiFiForIoTPlugin {
       return await _channel.invokeMethod('forceWifiUsage', htArguments);
     } on MissingPluginException catch (e) {
       print("MissingPluginException : ${e.toString()}");
+      return null;
     }
   }
+
+  static Future<bool> forceDataUsage(bool useWifi) async {
+    Map<String, bool> htArguments = Map();
+    htArguments["useData"] = useWifi;
+    try {
+      return await _channel.invokeMethod('forceDataUsage', htArguments);
+    } on MissingPluginException catch (e) {
+      print("MissingPluginException : ${e.toString()}");
+      return null;
+    }
+  }
+
 
   static Future<bool> isEnabled() async {
     Map<String, String> htArguments = Map();
